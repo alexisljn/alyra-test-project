@@ -14,4 +14,15 @@ describe("Voting smart contract test", () => {
 
         return voting;
     }
+
+    it('should deny if user is not owner', async () => {
+        const voting = await loadFixture(deployVotingFixture);
+
+        const [owner, nonOwner] = await ethers.getSigners()
+
+        await expect(voting.connect(nonOwner).addVoter(nonOwner.address))
+            .to
+            .be
+            .revertedWith("Ownable: caller is not the owner");
+    });
 });
