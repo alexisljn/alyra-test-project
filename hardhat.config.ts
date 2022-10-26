@@ -13,12 +13,12 @@ const config: HardhatUserConfig = {
   /* Uncomment the line below if metamask fix has to be done in hardhat */
   //     chainId: 1337
     },
-    goerli: {
-      url: "",
-      accounts: {
-        mnemonic: process.env.MNEMONIC
-      }
-    }
+    // goerli: {
+    //   url: "",
+    //   accounts: {
+    //     mnemonic: process.env.MNEMONIC
+    //   }
+    // }
   }
 };
 
