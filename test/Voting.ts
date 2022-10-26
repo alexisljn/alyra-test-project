@@ -25,4 +25,12 @@ describe("Voting smart contract test", () => {
             .be
             .revertedWith("Ownable: caller is not the owner");
     });
+
+    it('should deny if user is not voter', async () => {
+        const voting = await loadFixture(deployVotingFixture);
+
+        const [owner] = await ethers.getSigners();
+
+        await expect(voting.getVoter(owner.address)).to.be.revertedWith("You're not a voter");
+    });
 });
