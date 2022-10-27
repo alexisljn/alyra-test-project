@@ -139,4 +139,22 @@ describe("Voting smart contract test", () => {
 
         await expect(voting.addProposal("")).to.be.revertedWith("Vous ne pouvez pas ne rien proposer");
     });
+
+    it('should prove success on proposal submit', async () => {
+        const voting = await loadFixture(deployVotingFixture);
+
+        const [owner] = await ethers.getSigners();
+
+        // Add voter
+        await voting.addVoter(owner.address);
+
+        // Change voting period
+        await voting.startProposalsRegistering();
+
+        await expect(voting.addProposal("Valid Proposal"))
+            .to
+            .emit(voting, "ProposalRegistered")
+            .withArgs(1)
+        ;
+    });
 });
