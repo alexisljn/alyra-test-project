@@ -33,4 +33,15 @@ describe("Voting smart contract test", () => {
 
         await expect(voting.getVoter(owner.address)).to.be.revertedWith("You're not a voter");
     });
+
+    it('should deny if trying to add voter in wrong period', async () => {
+        const voting = await loadFixture(deployVotingFixture);
+
+        const [owner] = await ethers.getSigners();
+
+        // Change status of the voting
+        await voting.startProposalsRegistering();
+
+        await expect(voting.addVoter(owner.address)).to.be.revertedWith("Voters registration is not open yet");
+    });
 });
