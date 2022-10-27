@@ -47,7 +47,7 @@ describe("Voting smart contract test", () => {
     });
 
     it('should deny if trying to add a voter which is already been registered', async () => {
-        const voting = await  loadFixture(deployVotingFixture);
+        const voting = await loadFixture(deployVotingFixture);
 
         const [owner] = await ethers.getSigners();
 
@@ -58,7 +58,7 @@ describe("Voting smart contract test", () => {
     });
 
     it('should return event to prove success of voter registration', async () => {
-        const voting = await  loadFixture(deployVotingFixture);
+        const voting = await loadFixture(deployVotingFixture);
 
         const [owner] = await ethers.getSigners();
 
@@ -70,7 +70,7 @@ describe("Voting smart contract test", () => {
     });
 
     it('should return expected voters', async () => {
-        const voting = await  loadFixture(deployVotingFixture);
+        const voting = await loadFixture(deployVotingFixture);
 
         const [owner] = await ethers.getSigners();
 
@@ -87,7 +87,7 @@ describe("Voting smart contract test", () => {
     });
 
     it('should deny if user adds proposal in wrong period', async () => {
-        const voting = await  loadFixture(deployVotingFixture);
+        const voting = await loadFixture(deployVotingFixture);
 
         const [owner] = await ethers.getSigners();
 
@@ -102,7 +102,7 @@ describe("Voting smart contract test", () => {
     });
 
     it('should deny if owner try to start proposals registration in wrong period', async () => {
-        const voting = await  loadFixture(deployVotingFixture);
+        const voting = await loadFixture(deployVotingFixture);
 
         // Change period
         await voting.startProposalsRegistering();
@@ -117,7 +117,7 @@ describe("Voting smart contract test", () => {
     });
 
     it('should return event to prove success of starting proposals registrations', async () => {
-        const voting = await  loadFixture(deployVotingFixture);
+        const voting = await loadFixture(deployVotingFixture);
 
         await expect(voting.startProposalsRegistering())
             .to
@@ -127,7 +127,7 @@ describe("Voting smart contract test", () => {
     });
 
     it('should deny if user submit empty proposal', async () => {
-        const voting = await  loadFixture(deployVotingFixture);
+        const voting = await loadFixture(deployVotingFixture);
 
         const [owner] = await ethers.getSigners();
 
