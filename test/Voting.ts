@@ -84,4 +84,19 @@ describe("Voting smart contract test", () => {
 
         await expect(nonRegisteredVoter.isRegistered).to.be.equal(false);
     });
+
+    it('should deny if user adds proposal in wrong period', async () => {
+        const voting = await  loadFixture(deployVotingFixture);
+
+        const [owner] = await ethers.getSigners();
+
+        // Add voter
+        await voting.addVoter(owner.address);
+
+        await expect(voting.addProposal("This proposal won't pass"))
+            .to
+            .be
+            .revertedWith("Proposals are not allowed yet")
+        ;
+    });
 });
