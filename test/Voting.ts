@@ -44,4 +44,15 @@ describe("Voting smart contract test", () => {
 
         await expect(voting.addVoter(owner.address)).to.be.revertedWith("Voters registration is not open yet");
     });
+
+    it('should deny if trying to add a voter which is already been registered', async () => {
+        const voting = await  loadFixture(deployVotingFixture);
+
+        const [owner] = await ethers.getSigners();
+
+        // Add voter
+        await voting.addVoter(owner.address);
+
+        await expect(voting.addVoter(owner.address)).to.be.revertedWith("Already registered");
+    });
 });
