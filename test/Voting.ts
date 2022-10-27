@@ -23,7 +23,8 @@ describe("Voting smart contract test", () => {
         await expect(voting.connect(nonOwner).addVoter(nonOwner.address))
             .to
             .be
-            .revertedWith("Ownable: caller is not the owner");
+            .revertedWith("Ownable: caller is not the owner")
+        ;
     });
 
     it('should deny if user is not voter', async () => {
