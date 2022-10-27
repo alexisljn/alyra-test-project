@@ -81,9 +81,9 @@ describe("Voting smart contract test", () => {
 
         const nonRegisteredVoter: Voting.VoterStruct = await voting.getVoter(ethers.constants.AddressZero);
 
-        await expect(voter.isRegistered).to.be.equal(true);
+        expect(voter.isRegistered).to.be.equal(true);
 
-        await expect(nonRegisteredVoter.isRegistered).to.be.equal(false);
+        expect(nonRegisteredVoter.isRegistered).to.be.equal(false);
     });
 
     it('should deny if user adds proposal in wrong period', async () => {
@@ -188,7 +188,7 @@ describe("Voting smart contract test", () => {
 
         const validProposal: Voting.ProposalStruct = await voting.getOneProposal(1);
 
-        await expect(validProposal.description).to.be.equal("Valid Proposal");
+        expect(validProposal.description).to.be.equal("Valid Proposal");
     });
 
     it('should deny if voter votes in wrong period', async () => {
