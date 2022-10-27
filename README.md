@@ -25,15 +25,7 @@
 
 - onlyVoter : Deny
 
-#### Transactions
-
-- addVoter : Denies (mauvaise période, déjà enregistré) | Valid (event)
-
-- addProposal : Denies (mauvaise période, proposition vide) | Valid (event)
-
-- setVote: Denies (mauvaise période, déjà voté, proposition non trouvée) | Valid (event)
-
-- tallyVotes : Deny (mauvaise période) | Valid (event)
+#### Changement du Workflow status
 
 - startProposalsRegistering : Deny (mauvaise période) | Valid (event)
 
@@ -43,10 +35,26 @@
 
 - endVotingSession : Deny (mauvaise période) | Valid (event)
 
-#### Calls
+#### Gestion des électeurs
+
+- addVoter : Denies (mauvaise période, déjà enregistré) | Valid (event)
 
 - getVoter : Valid (valeur retournée)
+
+#### Gestion des propositions
+
+- addProposal : Denies (mauvaise période, proposition vide) | Valid (event)
+
 - getOneProposal : Deny (Proposition qui n'existe pas) | Valid (valeur retournée)
+
+#### Gestion des votes
+
+- setVote: Denies (mauvaise période, déjà voté, proposition non trouvée) | Valid (event)
+
+#### Gestion des résultats
+
+- tallyVotes : Deny (mauvaise période) | Valid (event)
+
 - winningProposalID : Valid
 
 ### Equivalence hardhat -> Truffle
