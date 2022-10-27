@@ -234,4 +234,23 @@ describe("Voting smart contract test", () => {
 
         await expect(voting.setVote(0)).to.emit(voting, "Voted").withArgs(owner.address, 0);
     });
+
+    it('should deny if voter votes twice', async () => {
+        const voting = await loadFixture(deployVotingFixture);
+
+        const [owner] = await ethers.getSigners();
+
+        // Add voter
+        await voting.addVoter(owner.address);
+
+        // Change voting periods
+        await voting.startProposalsRegistering();
+        await voting.endProposalsRegistering();
+        await voting.startVotingSession();
+
+        // Vote for first time
+        await voting.setVote(0);
+
+        await expect(voting.setVote(0)).to.be.revertedWith("You have already voted");
+    });
 });
