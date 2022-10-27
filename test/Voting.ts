@@ -67,4 +67,21 @@ describe("Voting smart contract test", () => {
             .emit(voting, "VoterRegistered").withArgs(owner.address)
         ;
     });
+
+    it('should return expected voters', async () => {
+        const voting = await  loadFixture(deployVotingFixture);
+
+        const [owner] = await ethers.getSigners();
+
+        // Add voter
+        await voting.addVoter(owner.address);
+
+        const voter: Voting.VoterStruct = await voting.getVoter(owner.address);
+
+        const nonRegisteredVoter: Voting.VoterStruct = await voting.getVoter(ethers.constants.AddressZero);
+
+        await expect(voter.isRegistered).to.be.equal(true);
+
+        await expect(nonRegisteredVoter.isRegistered).to.be.equal(false);
+    });
 });
