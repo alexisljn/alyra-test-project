@@ -253,4 +253,10 @@ describe("Voting smart contract test", () => {
 
         await expect(voting.setVote(0)).to.be.revertedWith("You have already voted");
     });
+
+    it('should deny if owner wants to tally votes in wrong period', async () => {
+        const voting = await loadFixture(deployVotingFixture);
+
+        await expect(voting.tallyVotes()).to.be.revertedWith("Current status is not voting session ended");
+    });
 });
