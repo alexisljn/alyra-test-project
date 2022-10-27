@@ -116,4 +116,14 @@ describe("Voting smart contract test", () => {
         ;
     });
 
+    it('should return event to prove success of starting proposals registrations', async () => {
+        const voting = await  loadFixture(deployVotingFixture);
+
+        await expect(voting.startProposalsRegistering())
+            .to
+            .emit(voting, "WorkflowStatusChange")
+            .withArgs(0,1)
+        ;
+    });
+
 });
