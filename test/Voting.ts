@@ -321,4 +321,15 @@ describe("Voting smart contract test", () => {
             .withArgs(1,2)
         ;
     });
+
+    it('should deny if owner try to start voting in wrong period', async () => {
+        const voting = await loadFixture(deployVotingFixture);
+
+        await expect(voting.startVotingSession())
+            .to
+            .be
+            .revertedWith("Registering proposals phase is not finished")
+        ;
+    });
+
 });
