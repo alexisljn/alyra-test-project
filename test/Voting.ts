@@ -218,4 +218,20 @@ describe("Voting smart contract test", () => {
         await expect(voting.setVote(1)).to.be.revertedWith("Proposal not found");
 
     });
+
+    it('should return event to prove success of vote', async () => {
+        const voting = await loadFixture(deployVotingFixture);
+
+        const [owner] = await ethers.getSigners();
+
+        // Add voter
+        await voting.addVoter(owner.address);
+
+        // Change voting periods
+        await voting.startProposalsRegistering();
+        await voting.endProposalsRegistering();
+        await voting.startVotingSession();
+
+        await expect(voting.setVote(0)).to.emit(voting, "Voted").withArgs(owner.address, 0);
+    });
 });
