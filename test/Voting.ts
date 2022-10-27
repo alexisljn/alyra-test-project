@@ -346,4 +346,15 @@ describe("Voting smart contract test", () => {
             .withArgs(2,3)
         ;
     });
+
+    it('should deny if owner try to end voting in wrong period', async () => {
+        const voting = await loadFixture(deployVotingFixture);
+
+        await expect(voting.endVotingSession())
+            .to
+            .be
+            .revertedWith("Voting session havent started yet")
+        ;
+    });
+
 });
