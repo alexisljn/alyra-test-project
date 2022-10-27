@@ -100,4 +100,20 @@ describe("Voting smart contract test", () => {
             .revertedWith("Proposals are not allowed yet")
         ;
     });
+
+    it('should deny if owner try to start proposals registration in wrong period', async () => {
+        const voting = await  loadFixture(deployVotingFixture);
+
+        // Change period
+        await voting.startProposalsRegistering();
+
+        await voting.endProposalsRegistering();
+
+        await expect(voting.startProposalsRegistering())
+            .to
+            .be
+            .revertedWith("Registering proposals cant be started now")
+        ;
+    });
+
 });
