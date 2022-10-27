@@ -56,4 +56,15 @@ describe("Voting smart contract test", () => {
 
         await expect(voting.addVoter(owner.address)).to.be.revertedWith("Already registered");
     });
+
+    it('should return event to prove success of voter registration', async () => {
+        const voting = await  loadFixture(deployVotingFixture);
+
+        const [owner] = await ethers.getSigners();
+
+        await expect(voting.addVoter(owner.address))
+            .to
+            .emit(voting, "VoterRegistered").withArgs(owner.address)
+        ;
+    });
 });
