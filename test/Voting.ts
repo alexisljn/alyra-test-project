@@ -157,4 +157,19 @@ describe("Voting smart contract test", () => {
             .withArgs(1)
         ;
     });
+
+    it('should deny if proposal don\'t exist', async () => {
+        const voting = await loadFixture(deployVotingFixture);
+
+        const [owner] = await ethers.getSigners();
+
+        // Add voter
+        await voting.addVoter(owner.address);
+
+        // Change voting period
+        await voting.startProposalsRegistering();
+
+        await expect(voting.getOneProposal(1)).to.be.reverted;
+    });
+
 });
