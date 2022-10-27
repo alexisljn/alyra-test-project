@@ -2,6 +2,7 @@ import {ethers} from "hardhat";
 import {Voting} from "../typechain-types";
 import {loadFixture} from "@nomicfoundation/hardhat-network-helpers";
 import {expect} from "chai";
+import {BigNumber} from "ethers";
 
 describe("Voting smart contract test", () => {
 
@@ -258,5 +259,42 @@ describe("Voting smart contract test", () => {
         const voting = await loadFixture(deployVotingFixture);
 
         await expect(voting.tallyVotes()).to.be.revertedWith("Current status is not voting session ended");
+    });
+
+    it('should return event to prove tally votes has been successful AND the winning proposal', async () => {
+        const voting = await loadFixture(deployVotingFixture);
+
+        const [owner, voter1, voter2] = await ethers.getSigners();
+
+        // Add voters
+        await voting.addVoter(owner.address);
+        await voting.addVoter(voter1.address);
+        await voting.addVoter(voter2.address);
+
+        // Change period to submit proposal
+        await voting.startProposalsRegistering();
+
+        // Add proposal
+        await voting.addProposal("Winning Proposal !");
+
+        // Change periods to vote
+        await voting.endProposalsRegistering();
+        await voting.startVotingSession();
+
+        // Voters vote
+        await voting.setVote(0);
+
+        await voting.connect(voter1).setVote(1);
+
+        await voting.connect(voter2).setVote(1);
+
+        // Change period to tally votes
+        await voting.endVotingSession();
+
+        await expect(voting.tallyVotes()).to.emit(voting, "WorkflowStatusChange").withArgs(4,5);
+
+        const winningProposalId: BigNumber = await voting.winningProposalID();
+
+        expect(winningProposalId).to.be.equal(BigNumber.from("1"));
     });
 });
