@@ -190,4 +190,15 @@ describe("Voting smart contract test", () => {
 
         await expect(validProposal.description).to.be.equal("Valid Proposal");
     });
+
+    it('should deny if voter votes in wrong period', async () => {
+        const voting = await loadFixture(deployVotingFixture);
+
+        const [owner] = await ethers.getSigners();
+
+        // Add voter
+        await voting.addVoter(owner.address);
+
+        await expect(voting.setVote(0)).to.be.revertedWith("Voting session havent started yet");
+    });
 });
