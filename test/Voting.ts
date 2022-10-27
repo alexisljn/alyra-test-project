@@ -297,4 +297,16 @@ describe("Voting smart contract test", () => {
 
         expect(winningProposalId).to.be.equal(BigNumber.from("1"));
     });
+
+    it('should deny if owner try to end proposal registration in wrong period', async () => {
+        const voting = await loadFixture(deployVotingFixture);
+
+        await expect(voting.endProposalsRegistering())
+            .to
+            .be
+            .revertedWith("Registering proposals havent started yet")
+        ;
+
+    });
+
 });
