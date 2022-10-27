@@ -201,4 +201,21 @@ describe("Voting smart contract test", () => {
 
         await expect(voting.setVote(0)).to.be.revertedWith("Voting session havent started yet");
     });
+
+    it('should deny if user votes for a proposal that has not been found', async () => {
+        const voting = await loadFixture(deployVotingFixture);
+
+        const [owner] = await ethers.getSigners();
+
+        // Add voter
+        await voting.addVoter(owner.address);
+
+        // Change voting periods
+        await voting.startProposalsRegistering();
+        await voting.endProposalsRegistering();
+        await voting.startVotingSession();
+
+        await expect(voting.setVote(1)).to.be.revertedWith("Proposal not found");
+
+    });
 });
