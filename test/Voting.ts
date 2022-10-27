@@ -357,4 +357,20 @@ describe("Voting smart contract test", () => {
         ;
     });
 
+    it('should emit event to act the start of voting session', async () => {
+        const voting = await loadFixture(deployVotingFixture);
+
+        // Change period
+        await voting.startProposalsRegistering();
+
+        await voting.endProposalsRegistering();
+
+        await voting.startVotingSession();
+
+        await expect(voting.endVotingSession())
+            .to
+            .emit(voting, "WorkflowStatusChange")
+            .withArgs(3,4)
+        ;
+    });
 });
