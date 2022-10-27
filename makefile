@@ -1,9 +1,9 @@
-.PHONY: setup run bash compile test console deploy
+.PHONY: setup run bash compile test console deploy coverage
 
 NETWORK="localhost"
 
 setup:
-	docker compose run hardhat npm install -D --verbose @nomicfoundation/hardhat-toolbox
+	docker compose run hardhat npm install -D --verbose @nomicfoundation/hardhat-toolbox dotenv solidity-coverage
 
 bash:
 	docker compose exec hardhat bash
@@ -27,3 +27,6 @@ endif
 
 console:
 	docker compose exec hardhat npx hardhat console --network $(NETWORK)
+
+coverage:
+	docker compose exec hardhat npx hardhat coverage --network hardhat
