@@ -1,5 +1,10 @@
 # Projet Alyra #2
 
+## Warning
+
+This project was a school project from Alyra, the french blockchain school.
+I had to write unit tests for this voting contract but it's not a contract written by me.
+
 ## Testing de smart contract
 
 ### Prérequis
